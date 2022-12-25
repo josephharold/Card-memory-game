@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+.flip-card{
+	perspective: 1000px;
+}
+.flip-card-inner{
+	transition: transform 1s;
+  transform-style: preserve-3d;
+	perspective: 1500px;
+}
+.flip-card.flip-card-open .flip-card-inner{
+	transform: rotateY(180deg);
+}
+
+
+.flip-card-back{
+	transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back{
+	backface-visibility: hidden;
+	width: 100%;
+}

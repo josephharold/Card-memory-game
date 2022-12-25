@@ -12,7 +12,7 @@ const Cards = ({size})=>{
 		setCardSet(cardList);
 	}, []);
 	return(
-		<div className={`grid grid-cols-${size} grid-rows-${size}`}>
+		<div className={`grid grid-cols-3 grid-rows-3 gap-5`}>
 			{cardSet}	
 		</div>
 	)

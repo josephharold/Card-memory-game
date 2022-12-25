@@ -34,10 +34,13 @@ const Card = (expiryTimestamp)=>{
 	console.log(isActive);
 	return(
 		<div>
-			<button onClick = {()=>{handleOnClick()}} className={`flip-card ${flipCardOpen} w-full h-full border border-slate-500`}>
-				<div className="flip-card-inner">
-					<div className="flip-card-front">
-						<h1>isActive: {isActive.toString()}</h1>
+			<button onClick = {()=>{handleOnClick()}} className={`flip-card ${flipCardOpen} border border-slate-500`}>
+				<div className="flip-card-inner w-32 h-32 relative">
+					<div className="flip-card-front bg-slate-200 w-full h-full absolute">
+						front
+					</div>
+					<div className="flip-card-back bg-red-200 w-full h-full absolute">
+						back
 					</div>
 				</div>
 			</button>
