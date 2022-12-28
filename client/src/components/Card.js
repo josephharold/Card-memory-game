@@ -1,7 +1,8 @@
 import { useState } from "react";
 import {useTimer} from 'react-timer-hook';
-const Card = (expiryTimestamp)=>{
+const Card = (props)=>{
 	const [isActive, setIsActive] = useState(false);
+	const [isDisabled, setIsDisabled] = useState(props.isDisabled);
 	const {
     seconds,
     minutes,
@@ -12,26 +13,34 @@ const Card = (expiryTimestamp)=>{
     pause,
     resume,
     restart,
-  } = useTimer({ expiryTimestamp, autoStart: false, onExpire: () => setIsActive(false) });
+  } = useTimer({ expiryTimestamp: props.expiryTimestamp, autoStart: false, onExpire: () => setIsActive(false) });
 
 	const restartHandler = ()=>{
 		const datetime = new Date();
-		datetime.setSeconds(datetime.getSeconds() + 1);
+		datetime.setSeconds(datetime.getSeconds() + 2);
 		restart(datetime)
 	}
 	const openCard = ()=>{
 		setIsActive(true);
-		restartHandler();	
+		if(props.isPaired === false){
+			restartHandler();	
+		}
 	}
 	const closeCard = ()=>{
-		setIsActive(false);
-		pause();
+		if(props.isPaired ===false){
+			setIsActive(false);
+			pause();
+		}else{
+			setIsDisabled(true);
+		}
 	}
 	const handleOnClick = ()=>{
-		isActive === false ? openCard() : closeCard();
+		if(props.isDisabled ==false ){
+			props.onClick();
+			isActive === false ? openCard() : closeCard();
+		}
 	}
 	const flipCardOpen = isActive ? 'flip-card-open' : '';
-	console.log(isActive);
 	return(
 		<div>
 			<button onClick = {()=>{handleOnClick()}} className={`flip-card ${flipCardOpen} border border-slate-500`}>
@@ -40,7 +49,7 @@ const Card = (expiryTimestamp)=>{
 						front
 					</div>
 					<div className="flip-card-back bg-red-200 w-full h-full absolute">
-						back
+						{props.name}
 					</div>
 				</div>
 			</button>
