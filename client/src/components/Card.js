@@ -13,7 +13,7 @@ const Card = (props)=>{
     pause,
     resume,
     restart,
-  } = useTimer({ expiryTimestamp: props.expiryTimestamp, autoStart: false, onExpire: () => setIsActive(false) });
+  } = useTimer({ expiryTimestamp: props.expiryTimestamp, autoStart: false, onExpire: () => closeCard(false) });
 
 	const restartHandler = ()=>{
 		const datetime = new Date();

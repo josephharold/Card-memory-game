@@ -4,7 +4,7 @@ import { cardList as list } from "../api/cardList";
 const Cards = ({size})=>{
 	const [cardSet, setCardSet] = useState(list);
 	const [openCards, setOpenCards] = useState([]);
-
+	const [score, setScore] = useState(0);
 	const onCardClick = (name, index)=>{
 		// if opencards less 1, then add opencards to stack
 		if(openCards.length < 1){
@@ -46,9 +46,19 @@ const Cards = ({size})=>{
 			console.log('opencards !== 2');
 		}
 	}, [openCards]);
-	const filterCardSet = (name, index)=>{
-		// let temp = [...cardSet];
+
+	const checkScore = (list)=>{
+		const result = list.filter((e)=>{return e.isPaired===true}).length;
+		return result
 	}
+
+	useEffect(() => {
+		setScore(checkScore(cardSet));	
+	}, [cardSet]);
+
+	// const filterCardSet = (name, index)=>{
+	// 	// let temp = [...cardSet];
+	// }
 	const checkCards = ()=>{
 		if(JSON.stringify(openCards[0]) === JSON.stringify(openCards[1])){
 			return true	
@@ -62,25 +72,28 @@ const Cards = ({size})=>{
 		}));
 	}, []);
 	return(
-		<div className={`grid grid-cols-3 grid-rows-3 gap-5`}>
-			{cardSet.map((e)=>{
-				let datetime = new Date();
-				datetime.setSeconds(datetime.getSeconds + 2);
-				return(
-					<Card
-						index={e.index}		
-						name={e.name}
-						image={e.image}
-						isPaired={e.isPaired}
-						isDisabled={e.isDisabled}
-						onClick={()=>{
-							onCardClick(e.name, e.index)
-						}}
-						expiryTimestamp={datetime}
-					/>
-				)
-			})}
-		</div>
+		<>
+			<span>{score}</span>
+			<div className={`grid grid-cols-3 grid-rows-3 gap-5`}>
+				{cardSet.map((e)=>{
+					let datetime = new Date();
+					datetime.setSeconds(datetime.getSeconds + 2);
+					return(
+						<Card
+							index={e.index}		
+							name={e.name}
+							image={e.image}
+							isPaired={e.isPaired}
+							isDisabled={e.isDisabled}
+							onClick={()=>{
+								onCardClick(e.name, e.index)
+							}}
+							expiryTimestamp={datetime}
+						/>
+					)
+				})}
+			</div>
+		</>
 	)
 }
 
