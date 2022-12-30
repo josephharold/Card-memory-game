@@ -1,94 +1,123 @@
 import Card from "./Card"
 import {useState, useEffect} from 'react';
 import { cardList as list } from "../api/cardList";
-const Cards = ({size})=>{
+import { useTimer } from "react-timer-hook";
+const Cards = ({expiryTimestamp})=>{
 	const [cardSet, setCardSet] = useState(list);
-	const [openCards, setOpenCards] = useState([]);
+	const [pair, setPair] = useState([]);
 	const [score, setScore] = useState(0);
-	const onCardClick = (name, index)=>{
-		// if opencards less 1, then add opencards to stack
-		if(openCards.length < 1){
-			let temp = [...openCards]
-			temp.push({name: name, index: index});
-			setOpenCards(temp);
-		}
-		// if opencards stack is equal to two then, check if the cards in the stack match
-		else if(openCards.length==1){
-			let temp = [...openCards]
-			temp.push({name: name, index: index});
-			setOpenCards(temp);
-			// if they match then update they opencards in the cardlist to 'paired'
-			if(checkCards() ===true){
-				// todo update cardlist
-			}
-			// else if they don't match, then close 
-			else{
-				// todo if they don't match then close
+
+	const {
+		seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart,
+	} = useTimer(
+		{
+			expiryTimestamp,
+			autoStart :false,
+			onExpire: ()=>{
+				closeCards();
 			}
 		}
-	}
-	
-	useEffect(() => {
-		console.log(cardSet)
-		if(openCards.length==2){
-			if(JSON.stringify(openCards[0].name)===JSON.stringify(openCards[1].name)){
-				let temp = [...cardSet];	
-				let index1 = temp.findIndex((e)=>{ return e.name === openCards[0].name && e.index === openCards[0].index});	
-				let index2 = temp.findIndex((e)=>{ return e.name === openCards[0].name && e.index === openCards[1].index});	
-				temp[index1].isPaired = true;
-				temp[index2].isPaired = true;
-				setCardSet(temp);
-			}	
-			else{
+	)
+	// setters
+	const setToPair = ()=>{
+		let temp = [...cardSet]; 
+		temp = temp.map((e)=>{
+			if(e.isOpen === true && e.isDisabled === false){
+				e.isDisabled = true;
+				e.isPaired = true;
 			}
-			setOpenCards([]);
-		}else{
-			console.log('opencards !== 2');
-		}
-	}, [openCards]);
-
-	const checkScore = (list)=>{
-		const result = list.filter((e)=>{return e.isPaired===true}).length;
-		return result
+			return e;
+		})
+		setCardSet(temp);
 	}
 
-	useEffect(() => {
-		setScore(checkScore(cardSet));	
-	}, [cardSet]);
 
-	// const filterCardSet = (name, index)=>{
-	// 	// let temp = [...cardSet];
-	// }
-	const checkCards = ()=>{
-		if(JSON.stringify(openCards[0]) === JSON.stringify(openCards[1])){
-			return true	
-		}else{
-			return false
+	// getters
+
+	const closeCards = (index)=>{
+		let temp = [...cardSet];
+		// console.log(temp);
+		temp = temp.map((e)=>{ 
+			if(e.isPaired === false){
+				e.isOpen = false
+				return e
+			}else{
+				return e
+			}
+		})	
+		console.log('closed')
+		setCardSet(temp);
+	}
+
+	const getNumIsPaired = ()=>{
+		let temp = [...cardSet].filter((e)=>{ return e.isOpen ===true});
+		return temp;
+	}
+
+	const getNumOpenCards = ()=>{
+		let length = cardSet.filter((e)=>{return e.isOpen === true}).length;
+		// let length = pair.length;
+		return length;
+	}
+
+
+	const onCardClick = (element, index)=>{
+		let cardset_ = [...cardSet];
+		let pair_ = [...pair];
+		if(pair.length === 2){
+			closeCards(index);
+			pair_.length = 0;	
 		}
+		cardset_[index].isOpen = true;
+		pair_.push(cardset_[index]);
+
+		setCardSet(cardset_);
+		setPair(pair_);
+	}	
+	const restartHandler = ()=>{
+		 const time = new Date();
+		 time.setSeconds(time.getSeconds() + 1);
+		 restart(time)
 	}
 	useEffect(() => {
-		setCardSet(list.map((element)=>{
-			return element
-		}));
-	}, []);
+		restartHandler();
+		// if pair has two cards, then compare the two cards
+		if(pair.length ===2){
+			// if they match, udpate the cardSet
+			if(JSON.stringify(pair[0].name) === JSON.stringify(pair[1].name)){
+				let cardset_ = [...cardSet]
+				let index1 = cardset_.findIndex((e)=>{return e.name === pair[0].name && e.index === pair[0].index});
+				let index2 = cardset_.findIndex((e)=>{return e.name === pair[1].name && e.index === pair[1].index});
+				cardset_[index1].isPaired = true; 
+				cardset_[index2].isPaired = true; 
+				setCardSet(cardset_);
+				console.log('setcardset:',cardset_);	
+			}else{
+				// if they don't match dont udpate
+				console.log('isNotMatch');
+			}
+		}
+	}, [pair]);
 	return(
 		<>
-			<span>{score}</span>
+			<div>score: {score}</div>
 			<div className={`grid grid-cols-3 grid-rows-3 gap-5`}>
-				{cardSet.map((e)=>{
-					let datetime = new Date();
-					datetime.setSeconds(datetime.getSeconds + 2);
+				{cardSet.map((element, index)=>{
 					return(
 						<Card
-							index={e.index}		
-							name={e.name}
-							image={e.image}
-							isPaired={e.isPaired}
-							isDisabled={e.isDisabled}
 							onClick={()=>{
-								onCardClick(e.name, e.index)
+								onCardClick(element, index)
 							}}
-							expiryTimestamp={datetime}
+							isOpen = {element.isOpen}
+							name = {element.name}
 						/>
 					)
 				})}
