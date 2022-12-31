@@ -1,11 +1,11 @@
 import Card from "./Card"
 import {useState, useEffect} from 'react';
 import { useTimer } from "react-timer-hook";
-import shuffle from "../utils/Shuffle";
 const Cards = ({expiryTimestamp, cardList})=>{
 	const [cardSet, setCardSet] = useState(cardList);
 	const [pair, setPair] = useState([]);
 	const [score, setScore] = useState(0);
+	const [isFinished, setIsFinished] = useState(false);
 	const {start, pause, resume, restart} = useTimer(
 		{
 			expiryTimestamp,
@@ -60,6 +60,7 @@ const Cards = ({expiryTimestamp, cardList})=>{
 				let index2 = cardset_.findIndex((e)=>{return e.name === pair[1].name && e.index === pair[1].index});
 				cardset_[index1].isPaired = true; 
 				cardset_[index2].isPaired = true; 
+				cardset_.filter((e)=>{ return e.isPaired === false}).length === 0 ? setIsFinished(true) : setIsFinished(false);
 				setCardSet(cardset_);
 				setScore(prev=>prev + 1)
 				console.log('setcardset:',cardset_);	
@@ -72,6 +73,7 @@ const Cards = ({expiryTimestamp, cardList})=>{
 	return(
 		<>
 			<div>score: {score}</div>
+			<div>setIsFinished: {isFinished.toString()}</div>
 			<div className={`grid grid-cols-3 grid-rows-3 gap-5`}>
 				{cardSet.map((element, index)=>{
 					return(
