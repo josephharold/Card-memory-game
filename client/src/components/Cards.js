@@ -1,7 +1,7 @@
 import Card from "./Card"
 import {useState, useEffect} from 'react';
 import { useTimer } from "react-timer-hook";
-const Cards = ({expiryTimestamp, cardList})=>{
+const Cards = ({expiryTimestamp, cardList, size})=>{
 	const [cardSet, setCardSet] = useState(cardList);
 	const [pair, setPair] = useState([]);
 	const [score, setScore] = useState(0);
@@ -74,7 +74,7 @@ const Cards = ({expiryTimestamp, cardList})=>{
 		<>
 			<div>score: {score}</div>
 			<div>setIsFinished: {isFinished.toString()}</div>
-			<div className={`grid grid-cols-3 grid-rows-3 gap-5`}>
+			<div className={`grid grid-cols-6 grid-rows-3 gap-5`}>
 				{cardSet.map((element, index)=>{
 					return(
 						<Card
@@ -83,6 +83,7 @@ const Cards = ({expiryTimestamp, cardList})=>{
 							}}
 							isOpen = {element.isOpen}
 							name = {element.name}
+							key={element.index}
 						/>
 					)
 				})}

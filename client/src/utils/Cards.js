@@ -1,4 +1,5 @@
 import shuffle from "./Shuffle"
+import { v4 as uuidv4 } from 'uuid';
 const cardClasses = [
 	{
 		name: 'class1',
@@ -22,15 +23,6 @@ const cardClasses = [
 	},
 ] 
 
-const generateId = (length)=> {
-	var result           = '';
-	var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-	var charactersLength = characters.length;
-	for ( var i = 0; i < length; i++ ) {
-			result += characters.charAt(Math.floor(Math.random() * charactersLength));
-	}
-	return result;
-}
 const generateCards = (size)=>{
 	// size must be an even number
 	let array = [];
@@ -41,13 +33,13 @@ const generateCards = (size)=>{
 		if(count === cardClasses.length){
 			count = 0;
 		}
-		temp = cardClasses[count]
+		temp = {...cardClasses[count]} 
 		temp.isOpen = false
 		temp.isPaired = false
 		temp.isDisabled = false
 		temp1 = {...temp}	
-		temp.index = generateId(4);
-		temp1.index = generateId(4);
+		temp.index = uuidv4();
+		temp1.index = uuidv4();
 		array.push(temp1);
 		array.push(temp);
 		count++;
