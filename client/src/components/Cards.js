@@ -1,23 +1,12 @@
 import Card from "./Card"
 import {useState, useEffect} from 'react';
-import { cardList as list } from "../api/cardList";
 import { useTimer } from "react-timer-hook";
-const Cards = ({expiryTimestamp})=>{
-	const [cardSet, setCardSet] = useState(list);
+import shuffle from "../utils/Shuffle";
+const Cards = ({expiryTimestamp, cardList})=>{
+	const [cardSet, setCardSet] = useState(cardList);
 	const [pair, setPair] = useState([]);
 	const [score, setScore] = useState(0);
-
-	const {
-		seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    resume,
-    restart,
-	} = useTimer(
+	const {start, pause, resume, restart} = useTimer(
 		{
 			expiryTimestamp,
 			autoStart :false,
@@ -26,21 +15,6 @@ const Cards = ({expiryTimestamp})=>{
 			}
 		}
 	)
-	// setters
-	const setToPair = ()=>{
-		let temp = [...cardSet]; 
-		temp = temp.map((e)=>{
-			if(e.isOpen === true && e.isDisabled === false){
-				e.isDisabled = true;
-				e.isPaired = true;
-			}
-			return e;
-		})
-		setCardSet(temp);
-	}
-
-
-	// getters
 
 	const closeCards = (index)=>{
 		let temp = [...cardSet];
@@ -56,18 +30,6 @@ const Cards = ({expiryTimestamp})=>{
 		console.log('closed')
 		setCardSet(temp);
 	}
-
-	const getNumIsPaired = ()=>{
-		let temp = [...cardSet].filter((e)=>{ return e.isOpen ===true});
-		return temp;
-	}
-
-	const getNumOpenCards = ()=>{
-		let length = cardSet.filter((e)=>{return e.isOpen === true}).length;
-		// let length = pair.length;
-		return length;
-	}
-
 
 	const onCardClick = (element, index)=>{
 		let cardset_ = [...cardSet];
@@ -99,6 +61,7 @@ const Cards = ({expiryTimestamp})=>{
 				cardset_[index1].isPaired = true; 
 				cardset_[index2].isPaired = true; 
 				setCardSet(cardset_);
+				setScore(prev=>prev + 1)
 				console.log('setcardset:',cardset_);	
 			}else{
 				// if they don't match dont udpate
