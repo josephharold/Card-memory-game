@@ -1,6 +1,7 @@
 import Card from "./Card"
 import {useState, useEffect} from 'react';
 import { useTimer } from "react-timer-hook";
+import { Grid } from "./Grid";
 const Cards = ({expiryTimestamp, cardList, size})=>{
 	const [cardSet, setCardSet] = useState(cardList);
 	const [pair, setPair] = useState([]);
@@ -74,7 +75,8 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 		<>
 			<div>score: {score}</div>
 			<div>setIsFinished: {isFinished.toString()}</div>
-			<div className={`grid grid-cols-6 grid-rows-3 gap-5`}>
+			<div>{size}</div>
+			<Grid size={size}>
 				{cardSet.map((element, index)=>{
 					return(
 						<Card
@@ -87,7 +89,9 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 						/>
 					)
 				})}
-			</div>
+			</Grid>
+			{/* <div className="">
+			</div> */}
 		</>
 	)
 }

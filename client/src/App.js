@@ -14,7 +14,7 @@ function App() {
     <div className="App">
       <h1>initial app</h1>
       <Timer expiryTimestamp={time}/>
-      <Cards cardList = {cards} expiryTimestamp = {cardTime} size={6}/>
+      <Cards cardList = {cards} expiryTimestamp = {cardTime} size={4}/>
     </div>
   );
 }
