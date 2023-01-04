@@ -36,9 +36,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* <h1>isRunning: {isRunning.toString()}</h1> */}
-      <h1>isFinished: {isFinished.toString()}</h1>
-      <h1>initial app</h1>
       <GameContext.Provider value={{
         cards,
         isFinished,

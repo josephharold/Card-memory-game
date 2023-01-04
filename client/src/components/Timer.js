@@ -65,9 +65,7 @@ const Timer = ()=>{
 			<div className=''>isRunning: {isRunning.toString()}</div>
 			<div className=''>seconds : {seconds}</div>
 			<div className=''>
-				<button onClick={()=>{start()}} className="w-32 border border-slate-500 rounded-lg">start</button>
 				<button onClick={()=>{pause()}} className="w-32 border border-slate-500 rounded-lg">pause</button>
-				<button onClick={()=>{resume()}} className="w-32 border border-slate-500 rounded-lg">resume</button>
 				<button onClick={()=>{restart()}} className="w-32 border border-slate-500 rounded-lg">restart</button>
 			</div>
 		</>

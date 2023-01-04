@@ -4,7 +4,7 @@ const Grid = ({onClick, children, size})=>{
 	const {
 		isRunning, 
 	} = useTimerContext();
-	const {isFinished,} = useGameContext();
+	const {isFinished, score} = useGameContext();
 	let colsTemplate;  
 	switch(size){
 		case 2:
@@ -25,13 +25,25 @@ const Grid = ({onClick, children, size})=>{
 	}
 	let blur = isRunning === true ? '': 'blur-md';
 	let pointerEvent = isFinished === true  ? 'pointer-events-none': '';
+	let hidden = isRunning === true ? 'hidden': '';
 	return(
 		<>
-			<div onClick = {()=>{onClick()}}className={`grid gap-4 ${colsTemplate} ${pointerEvent} ${blur}`}>
+		<div onClick = {()=>{onClick()}} className="relative w-full h-full">
+			<div className={`${hidden} absolute flex flex-column justify-center items-center w-full h-full z-20`}>
+				<span>
+					{isFinished === true ? `Congrats!!!! Your score is ${score.toString()}` : 'click to start/resume'}
+				</span>
+			</div>
+			<div className={`z-10 absolute w-full grid gap-4 ${colsTemplate} ${pointerEvent} ${blur}`}>
 				{children}
 			</div>
+
+		</div>
 		</>
 	)
 }
 
+const Modal = ()=>{
+	
+}
 export {Grid};
