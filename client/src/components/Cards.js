@@ -2,12 +2,12 @@ import Card from "./Card"
 import {useState, useEffect} from 'react';
 import { useTimer } from "react-timer-hook";
 import { Grid } from "./Grid";
+import { useTimerContext } from "./Timer";
+import { useGameContext } from "../App";
 const Cards = ({expiryTimestamp, cardList, size})=>{
 	const [cardSet, setCardSet] = useState(cardList);
 	const [pair, setPair] = useState([]);
-	const [score, setScore] = useState(0);
-	const [isFinished, setIsFinished] = useState(false);
-	const {start, pause, resume, restart} = useTimer(
+	const { restart, } = useTimer(
 		{
 			expiryTimestamp,
 			autoStart :false,
@@ -16,6 +16,12 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 			}
 		}
 	)
+	const {
+		isRunning: gameIsRunning,
+		resume: resumeGame,
+	} = useTimerContext();
+
+	const {isFinished, setIsFinished, setScore} = useGameContext();
 
 	const closeCards = (index)=>{
 		let temp = [...cardSet];
@@ -45,13 +51,20 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 		setCardSet(cardset_);
 		setPair(pair_);
 	}	
-	const restartHandler = ()=>{
+	const restartCard = ()=>{
 		 const time = new Date();
 		 time.setSeconds(time.getSeconds() + 1);
 		 restart(time)
 	}
+	const handleCards = ()=>{
+		if(!gameIsRunning){
+			if(!isFinished){
+				resumeGame();
+			}
+		}
+	}
 	useEffect(() => {
-		restartHandler();
+		restartCard();
 		// if pair has two cards, then compare the two cards
 		if(pair.length ===2){
 			// if they match, udpate the cardSet
@@ -61,9 +74,8 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 				let index2 = cardset_.findIndex((e)=>{return e.name === pair[1].name && e.index === pair[1].index});
 				cardset_[index1].isPaired = true; 
 				cardset_[index2].isPaired = true; 
-				cardset_.filter((e)=>{ return e.isPaired === false}).length === 0 ? setIsFinished(true) : setIsFinished(false);
+				setScore(prev=> prev+1);
 				setCardSet(cardset_);
-				setScore(prev=>prev + 1)
 				console.log('setcardset:',cardset_);	
 			}else{
 				// if they don't match dont udpate
@@ -73,23 +85,26 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 	}, [pair]);
 	return(
 		<>
-			<div>score: {score}</div>
-			<div>setIsFinished: {isFinished.toString()}</div>
-			<div>{size}</div>
-			<Grid size={size}>
-				{cardSet.map((element, index)=>{
-					return(
-						<Card
-							onClick={()=>{
-								onCardClick(element, index)
-							}}
-							isOpen = {element.isOpen}
-							name = {element.name}
-							key={element.index}
-						/>
-					)
-				})}
-			</Grid>
+			{/* TODO: GameComponent */}
+
+			{/* have score, gamestatus, grid, wrapped in a GameComponent */}
+			<div className="">
+				<Grid onClick={()=>{handleCards()}}size={size}>
+					{cardSet.map((element, index)=>{
+						return(
+							<Card
+								onClick={()=>{
+									onCardClick(element, index)
+								}}
+								isOpen = {element.isOpen}
+								name = {element.name}
+								key={element.index}
+							/>
+						)
+					})}
+				</Grid>
+
+			</div>
 			{/* <div className="">
 			</div> */}
 		</>

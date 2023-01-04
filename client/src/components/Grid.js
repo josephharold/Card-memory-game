@@ -1,15 +1,10 @@
-import { useState } from "react";
 import { useTimerContext } from "./Timer";
-const Grid = ({children, size})=>{	
+import { useGameContext } from "../App";
+const Grid = ({onClick, children, size})=>{	
 	const {
 		isRunning, 
-		start, 
-		pause, 
-		resume, 
-		restartHandler, 
-		seconds, 
-		minutes
 	} = useTimerContext();
+	const {isFinished,} = useGameContext();
 	let colsTemplate;  
 	switch(size){
 		case 2:
@@ -29,9 +24,10 @@ const Grid = ({children, size})=>{
 			break;
 	}
 	let blur = isRunning === true ? '': 'blur-md';
+	let pointerEvent = isFinished === true  ? 'pointer-events-none': '';
 	return(
 		<>
-			<div className={`grid ${colsTemplate} gap-4 ${blur}`}>
+			<div onClick = {()=>{onClick()}}className={`grid gap-4 ${colsTemplate} ${pointerEvent} ${blur}`}>
 				{children}
 			</div>
 		</>

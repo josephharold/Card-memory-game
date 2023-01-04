@@ -17,12 +17,12 @@ const useTimerContext = ()=>{
 		start, 
 		pause, 
 		resume, 
-		restartHandler, 
+		restart: restartHandler, 
 		seconds, 
 		minutes
 	};
 }
-const TimerProvider = ({expiryTimestamp, children})=>{
+const TimerProvider = ({onExpire, expiryTimestamp, children})=>{
 	const {
 		seconds,
     minutes,
@@ -35,9 +35,7 @@ const TimerProvider = ({expiryTimestamp, children})=>{
 		{
 			expiryTimestamp,
 			autoStart :false,
-			onExpire: ()=>{
-				console.warn('expire')
-			}
+			onExpire: ()=> onExpire(),
 		}
 	)
 	const restartHandler = ()=>{
@@ -58,7 +56,7 @@ const Timer = ()=>{
 		start, 
 		pause, 
 		resume, 
-		restartHandler, 
+		restart, 
 		seconds, 
 		minutes
 	}  = useTimerContext();
@@ -70,7 +68,7 @@ const Timer = ()=>{
 				<button onClick={()=>{start()}} className="w-32 border border-slate-500 rounded-lg">start</button>
 				<button onClick={()=>{pause()}} className="w-32 border border-slate-500 rounded-lg">pause</button>
 				<button onClick={()=>{resume()}} className="w-32 border border-slate-500 rounded-lg">resume</button>
-				<button onClick={()=>{restartHandler()}} className="w-32 border border-slate-500 rounded-lg">restart</button>
+				<button onClick={()=>{restart()}} className="w-32 border border-slate-500 rounded-lg">restart</button>
 			</div>
 		</>
 
