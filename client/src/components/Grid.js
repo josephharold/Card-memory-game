@@ -8,42 +8,37 @@ const Grid = ({onClick, children, size})=>{
 	let colsTemplate;  
 	switch(size){
 		case 2:
-			colsTemplate = 'grid-cols-2';	
+			colsTemplate = 'lg:grid-cols-2';	
 			break;
 		case 4:
-			colsTemplate = 'grid-cols-4';	
+			colsTemplate = 'lg:grid-cols-4';	
 			break;
 		case 6:
-			colsTemplate = 'grid-cols-6';	
+			colsTemplate = 'lg:grid-cols-6';	
 			break;
 		case 8:
-			colsTemplate = 'grid-cols-8';	
+			colsTemplate = 'lg:grid-cols-8';	
 			break;
 		case 10:
-			colsTemplate = 'grid-cols-10';	
+			colsTemplate = 'lg:grid-cols-10';	
 			break;
 	}
-	let blur = isRunning === true ? '': 'blur-md';
-	let pointerEvent = isFinished === true  ? 'pointer-events-none': '';
+	let blur = isRunning === false ? 'blur-lg': '';
+	let pointerEvent = isFinished === true  && isRunning === false? 'pointer-events-none': '';
 	let hidden = isRunning === true ? 'hidden': '';
 	return(
 		<>
-		<div onClick = {()=>{onClick()}} className="relative w-full h-full">
+		<div onClick = {()=>{onClick()}} className="cursor-pointer relative flex flex-row justify-center">
 			<div className={`${hidden} absolute flex flex-column justify-center items-center w-full h-full z-20`}>
-				<span>
+				<h2>
 					{isFinished === true ? `Congrats!!!! Your score is ${score.toString()}` : 'click to start/resume'}
-				</span>
+				</h2>
 			</div>
-			<div className={`z-10 absolute w-full grid gap-4 ${colsTemplate} ${pointerEvent} ${blur}`}>
+			<div className={`w-max grid gap-4 inset-0 grid-cols-4 ${colsTemplate} ${blur} ${pointerEvent}`}>
 				{children}
 			</div>
-
 		</div>
 		</>
 	)
-}
-
-const Modal = ()=>{
-	
 }
 export {Grid};

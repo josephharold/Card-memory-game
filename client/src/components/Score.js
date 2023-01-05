@@ -4,8 +4,10 @@ import { useGameContext } from "../App";
 const Score = ()=>{
 	const {score} = useGameContext();
 	return(
-		<div>
-			score: {score}
+		<div className="">
+			<h5 className="">
+				score: {score}
+			</h5>	
 		</div>
 	)
 }

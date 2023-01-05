@@ -1,8 +1,44 @@
 @tailwind base;
+
+
+@layer base{
+	html{
+		@apply text-white;
+	}
+	h1{
+		@apply font-extrabold;
+		@apply text-4xl;
+	}
+	h2{
+		@apply font-extrabold;
+		@apply text-2xl;
+	}
+	h5{
+		@apply font-extrabold;
+		@apply text-xl;
+	}
+}
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+html, body, #app, #app>div {
+  height: 100%
+}
 
 
+body{
+	background-image: linear-gradient(to right top, #ff32a7, #ee2db1, #d92cba, #c230c3, #a735ca, #8856e2, #5f6ef4, #0082ff, #00a7ff, #00c7ff, #00e3fe, #5ffbf1);
+	background-size: auto;
+	background-repeat: no-repeat;
+	font-family: 'Montserrat';
+	font-weight: bold;
+}
+
+.game-container{
+	background-image: linear-gradient(to left bottom, #ff0091, #ea009e, #d100a9, #b310b4, #8f22bc, #7648d4, #5261e7, #0076f4, #009fff, #00c1ff, #00e0fc, #5ffbf1);
+	background-size: auto;
+	background-repeat: no-repeat;
+}
 
 .flip-card{
 	perspective: 1000px;
@@ -15,7 +51,6 @@
 .flip-card.flip-card-open .flip-card-inner{
 	transform: rotateY(180deg);
 }
-
 
 .flip-card-back{
 	transform: rotateY(180deg);

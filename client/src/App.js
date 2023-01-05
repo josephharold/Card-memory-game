@@ -3,6 +3,7 @@ import TimerProvider,{Timer} from "./components/Timer";
 import Score from './components/Score';
 import React,{ useState, useContext, createContext, useEffect } from "react";
 import { generateCards } from "./utils/Cards";
+import Header from "./components/Header";
 
 const GameContext = createContext();
 
@@ -24,7 +25,7 @@ export const useGameContext = ()=>{
 }
 
 function App() {
-  const [cards, setCards] = useState(generateCards(36));
+  const [cards, setCards] = useState(generateCards(16));
   const [isFinished, setIsFinished] = useState(false);
   const [score, setScore] = useState(0); 
 
@@ -44,9 +45,14 @@ function App() {
         setScore,
       }}>
         <TimerProvider onExpire={()=>{setIsFinished(true)}}expiryTimestamp={time}>
-          <Score score={score}/>
-          <Timer/>
-          <Cards cardList = {cards} expiryTimestamp = {cardTime} size={4}/>
+          <h1 className="w-max m-2 mx-auto">Card Memory Game</h1>
+          <div className="game-container p-5 rounded-lg border-4 border-cyan-900 w-max m-auto">
+            <Header>
+              <Score score={score}/>
+              <Timer/>
+            </Header>
+            <Cards cardList = {cards} expiryTimestamp = {cardTime} size={4}/>
+          </div>
         </TimerProvider>
       </GameContext.Provider>
     </div>

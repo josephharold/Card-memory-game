@@ -1,5 +1,6 @@
 import {useTimer} from 'react-timer-hook';
 import { createContext, useContext } from 'react';
+import { useGameContext } from '../App';
 const TimerContext = createContext();
 
 const useTimerContext = ()=>{
@@ -60,13 +61,39 @@ const Timer = ()=>{
 		seconds, 
 		minutes
 	}  = useTimerContext();
+	const {isFinished} =  useGameContext();	
+	let icon;
+	if(isRunning === true){
+		icon = 'pause'		
+	}else if(isRunning ===false){
+		if(isFinished === true){
+			icon = 'restart';
+		}else{
+			icon = 'resume'
+		}
+	}
+
+
+	const handleTimerControls = ()=>{
+		if(isRunning === true){
+			pause();
+		}else if(isRunning ===false){
+			if(isFinished === true){
+				restart();
+			}else{
+				resume();
+			}
+		}
+	}
 	return(
 		<>
-			<div className=''>isRunning: {isRunning.toString()}</div>
-			<div className=''>seconds : {seconds}</div>
 			<div className=''>
-				<button onClick={()=>{pause()}} className="w-32 border border-slate-500 rounded-lg">pause</button>
-				<button onClick={()=>{restart()}} className="w-32 border border-slate-500 rounded-lg">restart</button>
+				<h5 className=''>
+					time: {seconds}	
+				</h5>
+			</div>
+			<div className=''>
+				<button onClick={()=>{handleTimerControls()}} className="w-32 px-2 text-cyan-900 bg-white rounded-lg">{icon}</button>
 			</div>
 		</>
 

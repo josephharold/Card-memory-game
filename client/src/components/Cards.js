@@ -89,7 +89,7 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 
 			{/* have score, gamestatus, grid, wrapped in a GameComponent */}
 			<div className="">
-				<Grid onClick={()=>{handleCards()}}size={size}>
+				<Grid onClick={()=>{handleCards()}} size={size}>
 					{cardSet.map((element, index)=>{
 						return(
 							<Card
@@ -103,7 +103,6 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 						)
 					})}
 				</Grid>
-
 			</div>
 			{/* <div className="">
 			</div> */}
