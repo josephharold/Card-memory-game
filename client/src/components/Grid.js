@@ -29,12 +29,12 @@ const Grid = ({onClick, children, size})=>{
 	return(
 		<>
 		<div onClick = {()=>{onClick()}} className="cursor-pointer relative flex flex-row justify-center">
-			<div className={`${hidden} absolute flex flex-column justify-center items-center w-full h-full z-20`}>
-				<h2>
+			<div className={`text-md md:text-xl lg:text-2xl ${hidden} absolute flex flex-column justify-center items-center w-full h-full z-20`}>
+				<div>
 					{isFinished === true ? `Congrats!!!! Your score is ${score.toString()}` : 'click to start/resume'}
-				</h2>
+				</div>
 			</div>
-			<div className={`w-fit grid gap-4 inset-0 grid-cols-4 ${colsTemplate} ${blur} ${pointerEvent}`}>
+			<div className={`w-full h-full grid gap-4 inset-0 grid-cols-4 ${colsTemplate} ${blur} ${pointerEvent}`}>
 				{children}
 			</div>
 		</div>
