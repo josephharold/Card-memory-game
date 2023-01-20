@@ -34,7 +34,7 @@ const Grid = ({onClick, children, size})=>{
 					{isFinished === true ? `Congrats!!!! Your score is ${score.toString()}` : 'click to start/resume'}
 				</h2>
 			</div>
-			<div className={`w-max grid gap-4 inset-0 grid-cols-4 ${colsTemplate} ${blur} ${pointerEvent}`}>
+			<div className={`w-fit grid gap-4 inset-0 grid-cols-4 ${colsTemplate} ${blur} ${pointerEvent}`}>
 				{children}
 			</div>
 		</div>

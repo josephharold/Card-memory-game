@@ -36,7 +36,7 @@ function App() {
   cardTime.setSeconds(cardTime.getSeconds()+ 1);
 
   return (
-    <div className="App">
+    <div className="App flex flex-col justify-center h-screen w-screen">
       <GameContext.Provider value={{
         cards,
         isFinished,
@@ -45,14 +45,14 @@ function App() {
         setScore,
       }}>
         <TimerProvider onExpire={()=>{setIsFinished(true)}}expiryTimestamp={time}>
-          <h1 className="w-max m-2 mx-auto">Card Memory Game</h1>
-          <div className="game-container p-5 rounded-lg border-4 border-cyan-900 w-max m-auto">
-            <Header>
-              <Score score={score}/>
-              <Timer/>
-            </Header>
-            <Cards cardList = {cards} expiryTimestamp = {cardTime} size={4}/>
-          </div>
+            <div className="w-max mx-auto text-lg md:text-2xl">Card Memory Game</div>
+            <div className="game-container p-5 rounded-lg border-4 border-cyan-900 w-max mx-auto">
+              <Header>
+                <Score score={score}/>
+                <Timer/>
+              </Header>
+              <Cards cardList = {cards} expiryTimestamp = {cardTime} size={4}/>
+            </div>
         </TimerProvider>
       </GameContext.Provider>
     </div>

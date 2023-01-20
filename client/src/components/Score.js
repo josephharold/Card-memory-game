@@ -5,9 +5,7 @@ const Score = ()=>{
 	const {score} = useGameContext();
 	return(
 		<div className="">
-			<h5 className="">
-				score: {score}
-			</h5>	
+			score: {score}
 		</div>
 	)
 }

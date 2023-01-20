@@ -88,12 +88,10 @@ const Timer = ()=>{
 	return(
 		<>
 			<div className=''>
-				<h5 className=''>
-					time: {seconds}	
-				</h5>
+				time: {seconds}	
 			</div>
 			<div className=''>
-				<button onClick={()=>{handleTimerControls()}} className="w-32 px-2 text-cyan-900 bg-white rounded-lg">{icon}</button>
+				<button onClick={()=>{handleTimerControls()}} className="w-max px-2 text-cyan-900 bg-white rounded-sm sm:rounded-md">{icon}</button>
 			</div>
 		</>
 

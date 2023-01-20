@@ -37,6 +37,7 @@ const generateCards = (size)=>{
 		temp.isOpen = false
 		temp.isPaired = false
 		temp.isDisabled = false
+		temp.image = `https://robohash.org/${uuidv4()}`; 
 		temp1 = {...temp}	
 		temp.index = uuidv4();
 		temp1.index = uuidv4();

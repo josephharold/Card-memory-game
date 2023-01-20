@@ -99,6 +99,7 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 								isOpen = {element.isOpen}
 								name = {element.name}
 								key={element.index}
+								image={element.image}
 							/>
 						)
 					})}
