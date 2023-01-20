@@ -1,10 +1,10 @@
 import Cards from "./components/Cards";
 import TimerProvider,{Timer} from "./components/Timer";
 import Score from './components/Score';
-import React,{ useState, useContext, createContext, useEffect } from "react";
-import { generateCards } from "./utils/Cards";
+import React,{ useState, useContext, createContext } from "react";
+import { uniqueCards } from "./utils/Cards";
 import Header from "./components/Header";
-
+import shuffle from "./utils/Shuffle";
 const GameContext = createContext();
 
 export const useGameContext = ()=>{
@@ -14,6 +14,7 @@ export const useGameContext = ()=>{
     setIsFinished,
     score,
     setScore,
+    resetGame
   } = useContext(GameContext);
   return {
     cards,
@@ -21,20 +22,32 @@ export const useGameContext = ()=>{
     setIsFinished,
     score,
     setScore,
+    resetGame
   }
 }
 
 function App() {
-  const [cards, setCards] = useState(generateCards(16));
+  const [cards, setCards] = useState(shuffle([...uniqueCards]));
   const [isFinished, setIsFinished] = useState(false);
   const [score, setScore] = useState(0); 
-
   const time = new Date();
-  time.setSeconds(time.getSeconds() + 10); // 10 minutes timer
+  time.setSeconds(time.getSeconds() + 20); // 10 minutes timer
 
   const cardTime = new Date(); 
   cardTime.setSeconds(cardTime.getSeconds()+ 1);
 
+  const resetGame = ()=>{
+    console.log('this is triggered');
+    let newCards  = shuffle([...cards]);
+    newCards = newCards.map(e=>{
+      e.isOpen = false;
+      e.isPaired = false;
+      e.isDisabled = false;
+      return e
+    })
+    setScore(0);
+    setCards(newCards);
+  }
   return (
     <div className="App flex flex-col justify-center h-screen w-screen">
       <GameContext.Provider value={{
@@ -43,6 +56,7 @@ function App() {
         setIsFinished,
         score,
         setScore,
+        resetGame
       }}>
         <TimerProvider onExpire={()=>{setIsFinished(true)}}expiryTimestamp={time}>
             <div className="w-max mx-auto text-lg md:text-2xl">Card Memory Game</div>

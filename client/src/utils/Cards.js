@@ -23,8 +23,8 @@ const cardClasses = [
 	},
 ] 
 
-const generateCards = (size)=>{
 	// size must be an even number
+	let size= 16;
 	let array = [];
 	let count = 0;
 	let temp;
@@ -45,7 +45,5 @@ const generateCards = (size)=>{
 		array.push(temp);
 		count++;
 	}
-	return shuffle(array);
-}
-
-export {generateCards};
+	let uniqueCards = array; 	
+export {uniqueCards};

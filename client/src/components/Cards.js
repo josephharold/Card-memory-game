@@ -25,7 +25,6 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 
 	const closeCards = (index)=>{
 		let temp = [...cardSet];
-		// console.log(temp);
 		temp = temp.map((e)=>{ 
 			if(e.isPaired === false){
 				e.isOpen = false
@@ -34,10 +33,8 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 				return e
 			}
 		})	
-		console.log('closed')
 		setCardSet(temp);
 	}
-
 	const onCardClick = (element, index)=>{
 		let cardset_ = [...cardSet];
 		let pair_ = [...pair];
@@ -76,18 +73,13 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 				cardset_[index2].isPaired = true; 
 				setScore(prev=> prev+1);
 				setCardSet(cardset_);
-				console.log('setcardset:',cardset_);	
 			}else{
 				// if they don't match dont udpate
-				console.log('isNotMatch');
 			}
 		}
 	}, [pair]);
 	return(
 		<>
-			{/* TODO: GameComponent */}
-
-			{/* have score, gamestatus, grid, wrapped in a GameComponent */}
 			<div className="">
 				<Grid onClick={()=>{handleCards()}} size={size}>
 					{cardSet.map((element, index)=>{
@@ -98,15 +90,13 @@ const Cards = ({expiryTimestamp, cardList, size})=>{
 								}}
 								isOpen = {element.isOpen}
 								name = {element.name}
-								key={element.index}
+								// key={element.index}
 								image={element.image}
 							/>
 						)
 					})}
 				</Grid>
 			</div>
-			{/* <div className="">
-			</div> */}
 		</>
 	)
 }

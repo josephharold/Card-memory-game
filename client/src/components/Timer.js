@@ -41,7 +41,7 @@ const TimerProvider = ({onExpire, expiryTimestamp, children})=>{
 	)
 	const restartHandler = ()=>{
 		 const time = new Date();
-		 time.setSeconds(time.getSeconds() + 60);
+		 time.setSeconds(time.getSeconds() + 20);
 		 restart(time)
 	}
 	return(
@@ -61,7 +61,7 @@ const Timer = ()=>{
 		seconds, 
 		minutes
 	}  = useTimerContext();
-	const {isFinished} =  useGameContext();	
+	const {resetGame, isFinished} =  useGameContext();	
 	let icon;
 	if(isRunning === true){
 		icon = 'pause'		
@@ -80,6 +80,7 @@ const Timer = ()=>{
 		}else if(isRunning ===false){
 			if(isFinished === true){
 				restart();
+				resetGame();
 			}else{
 				resume();
 			}
